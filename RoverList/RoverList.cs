@@ -10,12 +10,25 @@ namespace RoverList
     {
         // Add any variables you need here
         public int count;
-        Node nextNode;
+
         public RoverList ()
         {
 
         }
-
+        public int toCount()
+        {
+            current = head;
+            if (head == null)
+            {
+                count = 0;
+            }
+            while (current != null)
+            {
+                count++;
+                current = current.Next;
+            }
+            return count;
+        }
         public override int Count
         {
             get
@@ -27,63 +40,72 @@ namespace RoverList
         public override void Add(T data)
         {
             Node newNode = new Node(data);
+            Node current = head;
             if(head == null)
             {
+                newNode.Next = head;
                 head = newNode;
             }
             else
             {
-                //Traverses the list till it gets appended.
+                while (current != null)
+                {
+                    if (current.Next == null)
+                    {
+                        current.Next = newNode;
+                        break;
+                    }
+                    current = current.Next;
+                }
             }
-            count++;
         }
 
 
         public override void Add(int Position, T data)
         {
-            if (Position < 1 || Position > count + 1)
+            Node current = head;
+            Node newNode = new Node(data);
+            int pos = 0;
+            if (Position == 0)
             {
-
+                newNode.Next = head;
+                head = newNode;
             }
             else
             {
-
-                // Keep looping until the pos is zero
-                while (Position != 0)
+                while (current != null)
                 {
-                    Position--;
-                    if (Position == 0)
+                    if (pos == Position)
                     {
-
-                        // adding Node at required position
-                        Node temp = head;
-
-                        // Making the new Node to point to
-                        // the old Node at the same position
-                        temp.Next = current;
-
-                        // Changing the pointer of the Node previous
-                        // to the old Node to point to the new Node
-                        current = temp;
+                        current.Next = newNode;
+                        break;
                     }
-                    else
-                        // Assign double pointer variable to point to the
-                        // pointer pointing to the address of next Node
-                        current = current.Next;
+                    current = current.Next;
+                    pos++;
                 }
-                count++;
             }
         }
 
         public override void Clear()
         {
             head = null;
-
+            count = 0;
         }
 
         public override T ElementAt(int Position)
         {
-            throw new NotImplementedException();
+            Node current = head;
+            int pos = 0;
+            while (current != null)
+            {
+                if(pos == Position)
+                {
+                    return current.Data;
+                }
+                current = current.Next;
+                pos++;
+            }
+            return default(T);
         }
 
         public override void ListNodes()
@@ -91,21 +113,36 @@ namespace RoverList
             Node current = head;
             while (current != null)
             {
+                
                 Console.WriteLine(current.Data + " ,");
                 current = current.Next;
+                
             }
         }
 
         public override bool RemoveAt(int Position)
         {
+            Node current = head;
             bool removed = false;
+            int pos = 0;
             if(Position == 0)
             { 
                 head = head.Next;
+                removed = true;
             }
             else
             {
-                head.Next = current.Next.Next;
+                while (current != null)
+                {
+                    if (pos == Position)
+                    {
+                        current.Next = current.Next.Next;
+                        removed = true;
+                        break;
+                    }
+                    current = current.Next;
+                    pos++;
+                }
             }
             return removed;
         }
