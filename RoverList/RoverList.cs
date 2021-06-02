@@ -13,7 +13,7 @@ namespace RoverList
 
         public RoverList ()
         {
-
+            count = 0;
         }
         public int toCount()
         {
@@ -58,6 +58,7 @@ namespace RoverList
                     current = current.Next;
                 }
             }
+            count++;
         }
 
 
@@ -84,6 +85,7 @@ namespace RoverList
                     pos++;
                 }
             }
+            count++;
         }
 
         public override void Clear()
@@ -144,6 +146,7 @@ namespace RoverList
                     pos++;
                 }
             }
+            count--;
             return removed;
         }
     }
